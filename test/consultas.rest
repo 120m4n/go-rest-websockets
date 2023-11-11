@@ -1,3 +1,21 @@
 @server=http://localhost:5050
 ###
 GET {{server}}/health
+
+### signup
+POST {{server}}/signup
+Content-Type: application/json
+
+{
+    "email": "myemail2.mail.com",
+    "password": "mysecretpassword"
+}
+
+### login
+POST {{server}}/login
+Content-Type: application/json
+
+{
+    "email": "myemail2.mail.com",
+    "password": "mysecretpassword"
+}
