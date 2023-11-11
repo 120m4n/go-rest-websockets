@@ -1,5 +1,5 @@
 @server=http://localhost:5050
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNjk5NzE0NTU2LCJleHAiOjE2OTk4OTA5Njl9.9ZwZUr_POUXLI6x9eZpmh6CMzS7vk6gMYL86KSV97lY
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNjk5NzI5MzkzLCJleHAiOjE2OTk5MDIyMDJ9.PwDsetPvcVAV14Rew4dkDeWMzXO4l2lQwrhEVVrSfiY
 ### welcome to the API
 GET {{server}}/
 
@@ -30,4 +30,32 @@ GET {{server}}/me
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
+### POSt content
+POST {{server}}/posts HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
+{
+    "post_content": "Mi primer post"
+}
+
+
+### GET POST BY ID
+GET  {{server}}/posts/2Y2hWBdrj68UKz1YNVDsRflFUyQ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### UPDATE POST BY ID
+PUT  {{server}}/posts/2Y2hWBdrj68UKz1Y HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "post_content": "Las arepas de mi tia"
+}
+
+### DELETE POST BY ID
+DELETE   {{server}}/posts/2Y2hWBdrj68UKz1YNVDsRflFUyQ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
