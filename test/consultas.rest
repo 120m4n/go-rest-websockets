@@ -1,4 +1,8 @@
 @server=http://localhost:5050
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNjk5NzE0NTU2LCJleHAiOjE2OTk4OTA5Njl9.9ZwZUr_POUXLI6x9eZpmh6CMzS7vk6gMYL86KSV97lY
+### welcome to the API
+GET {{server}}/
+
 ###
 GET {{server}}/health
 
@@ -19,3 +23,11 @@ Content-Type: application/json
     "email": "myemail2.mail.com",
     "password": "mysecretpassword"
 }
+
+
+### GET ME
+GET {{server}}/me
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+

@@ -125,3 +125,34 @@ func LoginHandler(s server.Server) http.HandlerFunc {
 		})
 	}
 }
+
+func MeHandlers(s server.Server) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		value := r.Context().Value("userToken")
+		if value == nil {
+			log.Println("no token", value)
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		token, ok := value.(*jwt.Token)
+		if !ok {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+		if claims, ok := token.Claims.(*models.AppClaims); ok {
+			user, err := repository.GetUserById(r.Context(), claims.UserId)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(user)
+		} else {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+	}
+}
