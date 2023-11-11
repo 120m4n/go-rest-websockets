@@ -130,7 +130,6 @@ func MeHandlers(s server.Server) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		value := r.Context().Value("userToken")
 		if value == nil {
-			log.Println("no token", value)
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
