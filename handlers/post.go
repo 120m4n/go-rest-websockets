@@ -6,6 +6,7 @@ import (
 	"rest-ws/models"
 	"rest-ws/repository"
 	"rest-ws/server"
+	"strconv"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/gorilla/mux"
@@ -249,5 +250,35 @@ func DeletePostHandler(s server.Server) http.HandlerFunc{
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
+	}
+}
+
+func ListPostsHandler(s server.Server) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		pageStr := r.URL.Query().Get("page")
+		pageSizeStr := r.URL.Query().Get("pageSize")
+
+		page, err := strconv.Atoi(pageStr)
+		if err != nil || page < 1 {
+			page = 1
+		}
+
+		pageSize, err := strconv.Atoi(pageSizeStr)
+		if err != nil || pageSize < 1 {
+			pageSize = 10
+		}
+
+		// Calculate the offset based on the page number and page size
+		offset := (page - 1) * pageSize
+
+		posts, err := repository.ListPost(r.Context(), int64(pageSize), int64(offset))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(posts)
 	}
 }

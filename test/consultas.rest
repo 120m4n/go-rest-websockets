@@ -36,7 +36,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "post_content": "Mi primer post"
+    "post_content": "Mi primer post 6"
 }
 
 
@@ -57,5 +57,11 @@ Authorization: Bearer {{token}}
 
 ### DELETE POST BY ID
 DELETE   {{server}}/posts/2Y2hWBdrj68UKz1YNVDsRflFUyQ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### GET POST BY ID
+GET  {{server}}/posts?page=1&pageSize=4 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}

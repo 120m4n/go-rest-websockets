@@ -71,6 +71,24 @@ func (p *PostgresRepository) DeletePost(ctx context.Context, id string, userid i
 	return err
 }
 
+func (p *PostgresRepository) ListPost(ctx context.Context, limit, offset int64) ([]*models.Post, error) {
+	rows, err := p.db.QueryContext(ctx, "SELECT id, post_content, user_id, created_at FROM posts ORDER BY created_at DESC LIMIT $1 OFFSET $2", limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var posts []*models.Post
+	for rows.Next() {
+		var post models.Post
+		err := rows.Scan(&post.ID, &post.PostContent, &post.UserId, &post.CreatedAt)
+		if err != nil {
+			return nil, err
+		}
+		posts = append(posts, &post)
+	}
+	return posts, nil
+}
+
 
 
 func (p *PostgresRepository) Close() error {
